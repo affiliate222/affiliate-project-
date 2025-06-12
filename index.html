@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redirecting...</title>
+  <style>
+    body {
+      background-color: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      color: orange;
+    }
+
+    .loader {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid orange;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .message {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader"></div>
+  <div class="message" id="message">Redirecting to the official store...</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    const redirectMap = {
+      'a1': 'https://a.aliexpress.com/_mqFZJEn',
+      'b2': 'https://www.temu.com/product/1005000000002.html',
+      'c3': 'https://www.aliexpress.com/item/1005000000003.html',
+      // Add more codes as needed
+    };
+
+    if (code && redirectMap[code]) {
+      const url = redirectMap[code];
+      const messageEl = document.getElementById('message');
+
+      // Detect site name
+      let siteName = 'the site';
+      if (url.includes('aliexpress.com')) {
+        siteName = 'AliExpress';
+      } else if (url.includes('temu.com')) {
+        siteName = 'Temu';
+      }
+
+      messageEl.textContent = `Redirecting to the official ${siteName} store...`;
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        window.location.href = url;
+      }, 2000);
+    } else {
+      document.getElementById('message').textContent = 'Sorry, product not found.';
+    }
+  </script>
+</body>
+</html>
+
